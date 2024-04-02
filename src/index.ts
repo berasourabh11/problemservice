@@ -4,6 +4,7 @@ import { PORT } from './config/server.config';
 import bodyParser from 'body-parser';
 import { apiRouter } from './routes';
 import errorHandler from './utils/errorHandler';
+import connectdb from './utils/db.connect';
 
 
 app.use(bodyParser.json());
@@ -18,6 +19,7 @@ app.get("/ping",(req,res)=>{
 
 app.use(errorHandler);
 
-app.listen(PORT,()=>{
+app.listen(PORT,async ()=>{
+  await connectdb();
   console.log("Problem service listning on",PORT);
 })
