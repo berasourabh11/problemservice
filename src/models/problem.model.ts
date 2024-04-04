@@ -1,19 +1,8 @@
-import mongoose, { Document, Schema, Model } from "mongoose";
+import mongoose, { Schema, Model } from "mongoose";
+import { ProblemType } from "../types/problem.types";
 
-interface TestCase {
-  input: string;
-  output: string;
-}
 
-interface Problem extends Document {
-  title: string;
-  description: string;
-  difficulty: "easy" | "medium" | "hard";
-  testcases: TestCase[];
-  editorial: string;
-}
-
-const problemSchema: Schema<Problem> = new Schema({
+const problemSchema: Schema<ProblemType> = new Schema({
   title: {
     type: String,
     required: [true, "Title is required"],
@@ -41,11 +30,10 @@ const problemSchema: Schema<Problem> = new Schema({
     }
   ],
   editorial: {
-    type: String,
-    required: true,
+    type: String
   }
 });
 
-const ProblemModel: Model<Problem> = mongoose.model<Problem>("Problem", problemSchema);
+const ProblemModel: Model<ProblemType> = mongoose.model<ProblemType>("Problem", problemSchema);
 
 export default ProblemModel;
