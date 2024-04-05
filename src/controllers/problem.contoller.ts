@@ -1,27 +1,78 @@
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 import StatusCodes from "http-status-codes"
+import { NotImplemented } from "../errors/notImplemented.error";
+import { ProblemService } from "../services/";
+import { ProblemRepository } from "../repositories";
+
+const problemService= new ProblemService(new ProblemRepository());
+
 
 function pingProblemController(req: Request, res: Response) {
   return res.json({ message: "Pong from problem service" });
 }
 
-function addProblem(req: Request, res: Response) {
-  return res.status(StatusCodes.NOT_IMPLEMENTED).json({ message: "Not implemented" });
+async function addProblem(req: Request, res: Response,next:NextFunction) {
+  try{
+    const newProblem = await problemService.createProblem(req.body);
+    return res.status(StatusCodes.CREATED).json({
+      success:true,
+      message:"Problem created successfully",
+      error:{},
+      data:{
+        problem:newProblem
+      }
+    });
+  } catch (error) {
+    next(error)
+  }
 }
 
-function getProblems(req: Request, res: Response) {
-  return res.status(StatusCodes.NOT_IMPLEMENTED).json({ message: "Not implemented" });
+async function getProblems(req: Request, res: Response,next:NextFunction) {
+  try{
+    const problems = await problemService.getProblems();
+    return res.status(StatusCodes.OK).json({
+      success:true,
+      message:"Problems fetched successfully",
+      error:{},
+      data:{
+        problems:problems
+      }
+    });
+  } catch (error) {
+    next(error)
+  }
 }
-function getProblem(req: Request, res: Response) {
-  return res.status(StatusCodes.NOT_IMPLEMENTED).json({ message: "Not implemented" });
+async function getProblem(req: Request, res: Response,next:NextFunction) {
+    try{
+    const problemID= req.params.id;
+    const problem = await problemService.getProblem(problemID);
+    return res.status(StatusCodes.OK).json({
+      success:true,
+      message:"Problem fetched successfully",
+      error:{},
+      data:{
+        problem:problem
+      }
+    });
+  } catch (error) {
+    next(error)
+  }
 }
 
-function deleteProblem(req: Request, res: Response) {
-  return res.status(StatusCodes.NOT_IMPLEMENTED).json({ message: "Not implemented" });
+function deleteProblem(req: Request, res: Response,next:NextFunction) {
+    try{
+    throw new NotImplemented("add problem")
+  } catch (error) {
+    next(error)
+  }
 }
 
-function updateProblem(req: Request, res: Response) {
-  return res.status(StatusCodes.NOT_IMPLEMENTED).json({ message: "Not implemented" });
+function updateProblem(req: Request, res: Response,next:NextFunction) {
+    try{
+    throw new NotImplemented("add problem")
+  } catch (error) {
+    next(error)
+  }
 }
 
 export {
