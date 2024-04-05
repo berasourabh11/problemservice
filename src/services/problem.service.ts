@@ -20,6 +20,28 @@ class ProblemService{
     }
 
   }
+
+  async getProblems(){
+    try{
+      const problems = await this.problemRepository.getProblems();
+      return problems;
+    }catch(err){
+      console.log(err)
+      throw err;
+    }
+  }
+
+  async getProblem(problemId: string){
+    try{
+      const problem = await this.problemRepository.getProblem(problemId);
+      return problem;
+    }catch(err){
+      console.log(err)
+      throw err;
+    }
+  }
+
+
 }
 
 export { ProblemService };

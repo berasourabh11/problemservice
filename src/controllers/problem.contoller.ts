@@ -27,16 +27,33 @@ async function addProblem(req: Request, res: Response,next:NextFunction) {
   }
 }
 
-function getProblems(req: Request, res: Response,next:NextFunction) {
+async function getProblems(req: Request, res: Response,next:NextFunction) {
   try{
-    throw new NotImplemented("add problem")
+    const problems = await problemService.getProblems();
+    return res.status(StatusCodes.OK).json({
+      success:true,
+      message:"Problems fetched successfully",
+      error:{},
+      data:{
+        problems:problems
+      }
+    });
   } catch (error) {
     next(error)
   }
 }
-function getProblem(req: Request, res: Response,next:NextFunction) {
+async function getProblem(req: Request, res: Response,next:NextFunction) {
     try{
-    throw new NotImplemented("add problem")
+    const problemID= req.params.id;
+    const problem = await problemService.getProblem(problemID);
+    return res.status(StatusCodes.OK).json({
+      success:true,
+      message:"Problem fetched successfully",
+      error:{},
+      data:{
+        problem:problem
+      }
+    });
   } catch (error) {
     next(error)
   }
