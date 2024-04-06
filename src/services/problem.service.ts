@@ -9,39 +9,43 @@ class ProblemService{
   }
 
   async createProblem(problemData: ProblemType){
-    try{
-      // 1. Sanitize the markdown content
-      const sanitizedDescription = await sanitizeMarkdown(problemData.description);
+      try{
+        problemData.description = await sanitizeMarkdown(problemData.description);
+      }catch(err){
+        console.log(err);
+        throw err;
+      }
+
       const problem= this.problemRepository.createProblem(problemData);
       return problem;
-    }catch(err){
-      console.log(err)
-      throw err;
-    }
-
   }
 
   async getProblems(){
-    try{
       const problems = await this.problemRepository.getProblems();
       return problems;
-    }catch(err){
-      console.log(err)
-      throw err;
-    }
   }
 
   async getProblem(problemId: string){
-    try{
       const problem = await this.problemRepository.getProblem(problemId);
       return problem;
-    }catch(err){
-      console.log(err)
-      throw err;
-    }
   }
 
+  async deleteProblem(problemId: string){
+      const problem = await this.problemRepository.deleteProblem(problemId);
+      return problem;
+  }
 
+  async updateProblem(problemId: string,problemData: ProblemType){
+      try{
+        problemData.description = await sanitizeMarkdown(problemData.description);
+      }catch(err){
+        console.log(err);
+        throw err;
+      }
+
+      const problem = await this.problemRepository.updateProblem(problemId,problemData);
+      return problem;
+  }
 }
 
 export { ProblemService };
