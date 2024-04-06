@@ -39,7 +39,6 @@ class ProblemService{
       try{
         problemData.description = await sanitizeMarkdown(problemData.description);
       }catch(err){
-        console.log(err);
         throw err;
       }
 
